@@ -1,0 +1,13 @@
+.valueHolder {
+  display: inline;
+}
+
+.subValueHolder {
+  display: inline;
+  margin-left: 20px;
+  float: right;
+}
+
+.clickableTicker {
+  cursor: pointer;
+}

@@ -1,0 +1,51 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="form" (submit)='submit()'>
+    <section class="title">
+      Create an account
+      <!-- <h5 class="hint">Use your Company ID to sign in or create one now</h5> -->
+    </section>
+
+    <div class="login-group">
+
+      <clr-input-container>
+        <input type="text" name="firstName" clrInput placeholder="First Name" formControlName='firstName' />
+        <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <input type="text" name="lastName" clrInput placeholder="Last Name" formControlName='lastName' />
+        <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <input type="email" name="email" clrInput placeholder="Email" formControlName='email' />
+        <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+        <clr-control-error *clrIfError="'pattern'" [hidden]="form.get('email').untouched">Please enter a valid email address</clr-control-error>
+      </clr-input-container>
+      <clr-password-container>
+        <input type="password" name="password" clrPassword placeholder="Password" formControlName='password' />
+        <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'" [hidden]="form.get('password').untouched">Password should contain at least 8 characters
+        </clr-control-error>
+        <clr-control-error *clrIfError="'pattern'" [hidden]="form.get('password').untouched">Password should contain a lowercase letter, uppercase
+          letter and a number</clr-control-error>
+      </clr-password-container>
+
+      <div class="error active" *ngIf='signupErr'>
+        {{signupErr.message}}
+      </div>
+
+      <!-- <a href="javascript://" class="signup">Sign up for a Company ID</a> -->
+    </div>
+    <div>
+        <p>By signing up you agree to our <a href="" [routerLink]="['/termsandconditions']" target="_blank">terms and conditions</a></p>
+  
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary" [disabled]='!form.valid'>Sign Up</button>
+
+    </div>
+
+    <div class="progress loop" *ngIf='signupPending'><progress></progress></div>
+
+
+  </form>
+</div>

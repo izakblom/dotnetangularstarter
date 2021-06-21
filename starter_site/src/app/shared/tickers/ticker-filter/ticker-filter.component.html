@@ -1,0 +1,54 @@
+
+<div style="margin-bottom: 20px">
+  <div>
+    <span style="font-style: italic; font-size: 1em;">{{filter.description}}</span>
+  </div>
+  <div>
+    <form class="clr-form" *ngIf="filter.type.id != 4">
+      <input type="text" id="textF" name="textF" placeholder="Type to filter" class="clr-input" [formControl]="filterText" style="width: 100%">
+    </form>
+  </div>
+  <ng-template [ngIf]="filter.options.lookup && filterType == FILTER_TYPES.COLLECTION_FILTER">
+    <div>Available filters</div>
+    <div *ngFor="let f of availableCollectionFilters">
+      <a (click)="addFilter(f)" class="label label-blue clickable">{{f.value}}</a>
+    </div>
+    
+    <div>Applied filters</div>
+    <div *ngFor="let f of selectedCollectionFilters">
+      <a (click)="removeFilter(f)" class="label label-blue clickable">{{f.value}}</a>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="filter.options.lookup && filterType == FILTER_TYPES.DATE_FILTER">
+    <div>Date Options</div>
+    <div *ngIf="selectedDateFilter != null" style="text-align: end">
+      <a (click)="clearDateFilter()" class="label label-blue clickable">Clear</a>
+    </div>
+    <div *ngFor="let f of filter.options.options">
+      <a (click)="setDateFilter(f)" class="label label-blue clickable" [class.label-info]="selectedDateFilter != null && selectedDateFilter.id == f.id">{{f.value}}</a>
+    </div>
+
+    <ng-container *ngIf="selectedDateFilter != null && selectedDateFilter.id === 8">
+      <!--CUSTOM DATE-->
+      <div>From</div>
+      <div>
+        <form clrForm clrLayout="vertical">
+          <input type="date" clrDate name="fromdate" [(ngModel)]="data.from" (clrDateChange)="fromDateChanged($event)">
+        </form>
+      </div>
+      <div>To</div>
+      <div>
+        <form clrForm clrLayout="vertical">
+          <input type="date" clrDate name="todate" [(ngModel)]="data.to" (clrDateChange)="toDateChanged($event)">
+        </form>
+      </div>
+    </ng-container>
+    
+    <!-- <div>Applied filters</div>
+    <div *ngFor="let f of selectedCollectionFilters">
+      <a (click)="clearDateFilter(f)" class="label label-blue clickable">{{f.value}}</a>
+    </div> -->
+  </ng-template>
+</div>
+
+

@@ -1,0 +1,26 @@
+<div class="card" [ngClass]="enableClick ? 'clickableTicker': ''" (click)='onTickerClick()'>
+  <div class="card-header">
+    <div *ngIf='!refreshAPIRoute'>
+      {{title}}
+    </div>
+    <div class="clr-row" *ngIf='refreshAPIRoute'>
+      <div class="clr-col-10">
+        {{title}}
+      </div>
+      <div class="clr-col-2">
+        <button type="button" class="btn btn-sm" style='float: right; margin: 0px'>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="card-block">
+
+    <h2 class='valueHolder'> {{value}}</h2>
+    <p *ngIf='subValue' class='subValueHolder'>{{subValue}}</p>
+
+  </div>
+
+</div>

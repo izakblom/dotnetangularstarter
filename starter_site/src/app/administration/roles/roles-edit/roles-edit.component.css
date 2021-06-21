@@ -1,0 +1,29 @@
+.rolePerm {
+  border: 1px solid;
+  border-color: #D9E4EA;
+  padding: 12px;
+  /* border-radius: 4px; */
+}
+
+.rolePermHeading {
+  background-color: #D9E4EA;
+  padding: 12px;
+}
+
+.permbox {
+  border: 1px solid;
+  border-color: #D9E4EA;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center
+}
+
+.permbox:hover {
+  background-color: #D9E4EA;
+}
+
+.roleInput {
+  font-size: 11pt;
+}

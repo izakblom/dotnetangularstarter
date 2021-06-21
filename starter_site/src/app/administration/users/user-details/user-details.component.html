@@ -1,0 +1,124 @@
+<app-back-nav [routeTo]="'../'"></app-back-nav>
+
+<div class="clr-row" *ngIf='user'>
+  <div class="clr-col-6">
+    <div class="card">
+      <div class="card-block">
+        <div class="clr-row">
+          <div class="clr-col">
+            <h4 class="card-title">{{user.firstName + ' ' + user.lastName}}</h4>
+          </div>
+          <div class="clr-col">
+            <span class="label label-danger" style='margin: 6px;' *ngIf='!user.isActive'>Profile Disabled</span>
+          </div>
+          <div class="clr-col" style='text-align: right' *ngIf='hasManageUserPermission'>
+            <button class='btn btn-sm' [ngClass]="user.isActive ? 'btn-warning-outline' : 'btn-success-outline'" (click)='onEnableDisableUser()'>
+              {{user.isActive ? 'Disable User' : 'Enable User'}}
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+      <ul class="list-group list-group-flush">
+
+        <li class="list-group-item">
+          <div class="clr-row">
+            <div class="clr-col">
+              <strong>Email</strong>
+            </div>
+            <div class="clr-col">
+              {{user.email}}
+            </div>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="clr-row">
+            <div class="clr-col">
+              <strong>Mobile Number</strong>
+            </div>
+            <div class="clr-col">
+              {{user.mobile}}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<div class="card" *ngIf='user && roles'>
+  <div class="card-header">
+    Roles
+  </div>
+  <div class="card-block">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="left">Name</th>
+          <th class="left">Description</th>
+          <th class="left">Permissions</th>
+          <th class="left">Assigned</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let role of roles'>
+          <td class="left">{{role.name}}</td>
+          <td class="left">{{role.description}}</td>
+          <td class="left">{{role.permissions.length}}</td>
+          <td class="left"><input type="checkbox" clrToggle (input)='onRoleToggle(role)' [checked]='isRoleAssigned(role)' /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="card" *ngIf='user && permissions && hasManagePermsPermission'>
+  <div class="card-header">
+    Permissions
+  </div>
+  <div class="card-block">
+    <clr-stack-view>
+
+      <clr-stack-block *ngFor='let role of roles' [clrSbExpanded]="true">
+        <clr-stack-label>{{role.name}}</clr-stack-label>
+        <clr-stack-block *ngFor='let permission of role.permissions'>
+          <clr-stack-label>{{permission.name}}</clr-stack-label>
+          <clr-stack-content><input type="checkbox" (input)='onPermissionToggle(permission)' clrToggle [checked]='userHasPermission(permission)' />
+          </clr-stack-content>
+        </clr-stack-block>
+      </clr-stack-block>
+      <clr-stack-block *ngIf='roles && roles.length > 0 && permissionsWithoutRoles && permissionsWithoutRoles.length > 0' [clrSbExpanded]="true">
+        <clr-stack-label>Miscellaneous Permissions</clr-stack-label>
+        <clr-stack-block *ngFor='let permission of permissionsWithoutRoles'>
+          <clr-stack-label>{{permission.name}}</clr-stack-label>
+          <clr-stack-content><input type="checkbox" (input)='onPermissionToggle(permission)' clrToggle [checked]='userHasPermission(permission)' />
+          </clr-stack-content>
+        </clr-stack-block>
+      </clr-stack-block>
+      <clr-stack-block *ngIf='!roles || roles.length === 0' [clrSbExpanded]="true">
+        <clr-stack-label>All Permissions</clr-stack-label>
+        <clr-stack-block *ngFor='let permission of permissions'>
+          <clr-stack-label>{{permission.name}}</clr-stack-label>
+          <clr-stack-content><input type="checkbox" (input)='onPermissionToggle(permission)' clrToggle [checked]='userHasPermission(permission)' />
+          </clr-stack-content>
+        </clr-stack-block>
+      </clr-stack-block>
+
+
+    </clr-stack-view>
+    <!-- <table class="table">
+      <thead>
+        <tr>
+          <th class="left">Name</th>
+          <th class="left">Assigned</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let permission of permissions'>
+          <td class="left">{{permission.name}}</td>
+          <td class="left"><input type="checkbox" clrToggle [value]='user.permissions.includes(permission)' /></td>
+        </tr>
+      </tbody>
+    </table> -->
+  </div>
+</div>

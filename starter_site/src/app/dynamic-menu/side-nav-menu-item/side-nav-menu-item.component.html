@@ -1,0 +1,14 @@
+<section [ngClass]="navItem.children.length > 0 ? 'nav-group collapsible' : 'nav-link'">
+  <ng-template [ngIf]='navItem.children.length > 0'>
+    <input [id]="navItem.heading" type="checkbox">
+    <label [for]="navItem.heading">{{navItem.heading}}</label>
+    <ul class="nav-list">
+      <app-side-nav-menu-item *ngFor='let secondChild of navItem.children' [navItem]='secondChild'></app-side-nav-menu-item>
+
+    </ul>
+  </ng-template>
+
+  <ng-template [ngIf]='navItem.children.length === 0'>
+    <a [routerLink]='navItem.routerLink' class="nav-link">{{navItem.heading}}</a>
+  </ng-template>
+</section>

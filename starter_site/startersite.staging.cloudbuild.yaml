@@ -1,0 +1,49 @@
+# Builds the project, deploys to a GCP Cloud Run container
+
+steps:
+  #For debugging purposes (so we can see the cloudbuild directory structure execute ls)
+  - name: "ubuntu"
+    args: ["ls"]
+
+  #For debugging purposes (so we can see the cloudbuild directory structure execute pwd)
+  - name: "ubuntu"
+    args: ["pwd"]
+
+  # Build the app image from the Dockerfile configuration
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "-t",
+        "gcr.io/$PROJECT_ID/startersite.site",
+        ".",
+        "--build-arg",
+        "TENANT_STAGE=build__staging",
+      ]
+    dir: "startersite_site" #cloudbuild is not directory aware by default, we need to specify each commands exec directory
+
+  # push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/startersite.site"]
+    dir: "startersite_site" #cloudbuild is not directory aware by default, we need to specify each commands exec directory
+
+  # Call gcloud beta run deploy to deploy the image to a container in cloud run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "beta",
+        "run",
+        "deploy",
+        "startersite-site",
+        "--image",
+        "gcr.io/$PROJECT_ID/startersite.site",
+        "--region",
+        "us-central1",
+        "--allow-unauthenticated",
+        "--platform",
+        "managed",
+      ]
+timeout: "1600s"
+
+# Publish the app.
+images: ["gcr.io/$PROJECT_ID/startersite.site"]

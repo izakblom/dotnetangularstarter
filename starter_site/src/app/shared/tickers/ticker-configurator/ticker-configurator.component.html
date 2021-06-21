@@ -1,0 +1,143 @@
+<div class="clr-row">
+    <div class="clr-col-lg-12 clr-col-md-12 clr-col-12">
+        <div class="card">
+            <div class="card-header">
+                Configuring {{ticker.title}}
+            </div>
+            <div class="card-block">
+                <div class="card-text">
+                  <div class="clr-row">
+                    <div class="clr-col">
+                      <strong>Categories</strong>
+                      <ul class="list-unstyled">
+                        <li *ngFor="let t of templateIds" (click)="setActiveTemplate(t)" [class.li-active]="activeTemplate == t">
+                          {{t}}
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="clr-col">
+                      <strong>Tickers</strong>
+                      <ul class="list-unstyled" *ngIf="activeTemplate != null">
+                        <li *ngFor="let ti of templates[activeTemplate]" (click)="setSelectedTickerTemplate(ti)" [class.li-active]="ti.id == selectedTicker.template.id">
+                          {{ti.title}}
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="clr-col">
+                      <strong>Configuration</strong>
+                      <ul class="list-unstyled" *ngIf="selectedTicker != null">
+                        <li class="staticLabel">
+                            Ticker Type
+                        </li>
+                        <li class="staticLabel">
+                            {{selectedTicker.template.type.name}}
+                        </li>
+                        <li class="staticLabel">
+                            Ticker Title
+                        </li>
+                        <li>
+                          <input clrInput placeholder="Give this ticker a title!" name="title" [(ngModel)]="selectedTicker.title" />
+                        </li>
+                        <li class="staticLabel">
+                            Ticker Background Color
+                        </li>
+                        <li>
+                            <div [style.color]="selectedTicker.color"
+                                [style.background-color]="selectedTicker.color"
+                                style="border: 1px solid #000000;padding: 5px;width:32px;height:32px;"
+                                [cpPosition]="'bottom'"
+                                [cpPositionOffset]="'50%'"
+                                [cpPositionRelativeToArrow]="true"
+                                [(colorPicker)]="selectedTicker.color"></div>
+                        </li>
+                        <li class="staticLabel">
+                            Ticker Text Color
+                        </li>
+                        <li>
+                            <div [style.color]="selectedTicker.textColor"
+                                [style.background-color]="selectedTicker.textColor"
+                                style="border: 1px solid #000000;padding: 5px;width:32px;height:32px;"
+                                [cpPosition]="'bottom'"
+                                [cpPositionOffset]="'50%'"
+                                [cpPositionRelativeToArrow]="true"
+                                [(colorPicker)]="selectedTicker.textColor"></div>
+                        </li>
+                        <li class="staticLabel">
+                          Large Screen Col Width
+                        </li>
+                        <li>
+                          <select clrSelect name="options" [(ngModel)]="selectedTicker.lgCols">
+                            <option *ngFor="let o of lgColTypes" [value]="o">{{o}}</option>
+                          </select>
+                        </li>
+                        <li class="staticLabel">
+                          Large Screen Row Height
+                        </li>
+                        <li>
+                          <select clrSelect name="options" [(ngModel)]="selectedTicker.lgRows">
+                            <option *ngFor="let o of lgRowTypes" [value]="o">{{o}}</option>
+                          </select>
+                        </li>
+
+                        <li class="staticLabel">
+                          Medium Screen Col Width
+                        </li>
+                        <li>
+                          <select clrSelect name="options" [(ngModel)]="selectedTicker.mdCols">
+                            <option *ngFor="let o of mdColTypes" [value]="o">{{o}}</option>
+                          </select>
+                        </li>
+                        <li class="staticLabel">
+                          Medium Screen Row Height
+                        </li>
+                        <li>
+                          <select clrSelect name="options" [(ngModel)]="selectedTicker.mdRows">
+                            <option *ngFor="let o of mdRowTypes" [value]="o">{{o}}</option>
+                          </select>
+                        </li>
+
+                        <li class="staticLabel">
+                          Small Screen Col Width
+                        </li>
+                        <li>
+                          <select clrSelect name="options" [(ngModel)]="selectedTicker.smCols">
+                            <option *ngFor="let o of mdColTypes" [value]="o">{{o}}</option>
+                          </select>
+                        </li>
+                        <li class="staticLabel">
+                          Small Screen Row Height
+                        </li>
+                        <li>
+                          <select clrSelect name="options" [(ngModel)]="selectedTicker.smRows">
+                            <option *ngFor="let o of smRowTypes" [value]="o">{{o}}</option>
+                          </select>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <div class="clr-col">
+                      <strong>Filters</strong>
+                      <ul class="list-unstyled" *ngIf="activeTemplate != null">
+                        <li *ngFor="let ti of selectedTicker.template.availableFilters">
+                          <app-ticker-filter [filter]="ti" [tickerId]="selectedTicker.template.id" [data]="ticker.filter" (textFilterChanged)="textFilterChanged($event)" (collectionFilterChanged)="collectionFilterChanged($event)" (dateFilterChanged)="dateFilterChanged($event)" style="margin-bottom:20px;"></app-ticker-filter>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-sm btn-link" (click)="onCancel()">Cancel</button>
+                <button type="button" class="btn btn-sm btn-link" (click)="onSave()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <p>
+  Configuring {{ticker.title}}
+</p>
+
+<button type="button" class="btn btn-outline" >Cancel</button>
+<button type="button" class="btn btn-primary" >Save</button> -->

@@ -1,0 +1,93 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="form">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      Angular Site Starter
+      <!-- <h5 class="hint">Use your Company ID to sign in or create one now</h5> -->
+    </section>
+
+    <div class="login-group">
+
+      <clr-input-container>
+        <input type="email" name="email" clrInput placeholder="Email" formControlName='email' />
+      </clr-input-container>
+      <clr-password-container>
+        <input type="password" name="password" clrPassword placeholder="Password" formControlName='password' />
+      </clr-password-container>
+
+      <div class="error active" *ngIf='authError && form.dirty && form.touched'>
+        {{authError}}
+      </div>
+
+      <!-- <a href="javascript://" class="signup">Sign up for a Company ID</a> -->
+    </div>
+    <div>
+      <button type="submit" (click)='submit()' class="btn btn-primary" [disabled]='!form.valid'>Log In</button>
+      <button class="btn btn-secondary" (click)='onSignup()'>Sign Up</button>
+    </div>
+    <div><button class="btn btn-link" (click)='onForgotPassword()'>Forgot Password?</button> </div>
+
+    <div class="progress loop" *ngIf='signinPending'><progress></progress></div>
+  </form>
+</div>
+
+<clr-modal [clrModalOpen]="showForgotPW">
+  <h3 class="modal-title">Enter your email address to reset your password:</h3>
+  <div class="modal-body">
+    <span *ngIf='resetPending'>An email containing instructions to reset your password has been sent to {{resetPWEmail}}</span>
+    <form clrForm #resetForm='ngForm'>
+      <clr-input-container *ngIf='!resetPending'>
+        <label>Email</label>
+        <input type="email" name="resetPWEmail" #resetEmail='ngModel' clrInput style='width: 80% !important' required
+          [pattern]="'^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$'" placeholder="someone@example.com"
+          [(ngModel)]='resetPWEmail' />
+
+      </clr-input-container>
+      <div class="alert alert-danger" role="alert" *ngIf='resetInvalidEmailErr'>
+        <div class="alert-items">
+          <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+              <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+            </div>
+            <span class="alert-text">
+              Invalid email address
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" *ngIf='!resetPending'>
+    <button type="button" class="btn btn-outline" (click)="showForgotPW = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="onResetPW()"
+      [disabled]="resetPWEmail === null || resetPWEmail === '' || !resetForm.valid">Reset
+      Password</button>
+  </div>
+  <div class="modal-footer" *ngIf='resetPending'>
+    <button type="button" class="btn btn-outline" (click)="showForgotPW = false; resetPending = false; resetPWEmail = null">OK</button>
+  </div>
+</clr-modal>
+
+<!-- <form [formGroup]="form" (submit)='submit()'>
+  <p>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field>
+      <input type="password" matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+  </p>
+
+
+  <div class="button">
+    <button type="submit" id='loginBtn' color='primary' mat-raised-button>Log In</button>
+  </div>
+
+  <div class="button">
+    <button type="submit" id='forgotPW' color='primary' mat-button>Forgot Password?</button>
+  </div>
+
+</form> -->

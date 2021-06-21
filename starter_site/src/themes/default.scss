@@ -1,0 +1,25 @@
+// use the html inspector to see the applied class on the element you want to change
+// click through to the source file in the right hand inspector tool and set the
+// scss variable used there, in this file to override.
+
+$theme-color-main: #0083c2; //  telkom blue
+$theme-color-white: #ffffff;
+$theme-color-light-grey: #eeeeee;
+$theme-color-lighter-grey: #f5f5f5;
+
+//MAIN CONTAINER BACKGROUND
+$clr-global-app-background: $theme-color-lighter-grey;
+
+// NAVBAR
+$clr-header-bgColor: $theme-color-main; //  set nav background color
+$clr-header-textColor: $theme-color-white !default; //  header text on telkom blue
+
+// SIDENAV
+// TODO: Might have to move these styles into a non variable scsss file.
+.sidenav {
+  width: 13% !important;
+}
+
+.sidenav-content {
+  background-color: $theme-color-light-grey;
+}

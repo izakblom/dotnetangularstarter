@@ -1,0 +1,88 @@
+<div [formGroup]="form">
+
+  <div [ngSwitch]="formEl.controlType">
+    <!-- TEXTBOX -->
+    <clr-input-container *ngSwitchCase="'textbox'" [hidden]='!formEl.visible'>
+      <label [attr.for]=" formEl.key" class="clr-control-label">{{formEl.label}}</label>
+
+      <input [formControlName]=" formEl.key" [id]="formEl.key" [name]="formEl.key" [type]="formEl.type ? formEl.type : 'text'" clrInput
+        [placeholder]="!formEl.required ? 'optional' : ''" [min]="formEl.type === 'number' ? 0 : null">
+      <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+      <clr-control-error *clrIfError="'pattern'" [hidden]="form.get(formEl.key).untouched">
+        {{formEl.patternValidationMsg ? formEl.patternValidationMsg : 'Invalid'}}</clr-control-error>
+    </clr-input-container>
+
+    <!-- TEXTAREA -->
+    <clr-textarea-container *ngSwitchCase="'textarea'" [hidden]='!formEl.visible'>
+      <label [attr.for]=" formEl.key" class="clr-control-label">{{formEl.label}}</label>
+      <textarea clrTextarea [formControlName]="formEl.key" [id]="formEl.key" [name]="formEl.key"
+        [placeholder]="!formEl.required ? 'optional' : ''"></textarea>
+      <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+      <clr-control-error *clrIfError="'minlength'" [hidden]="form.get(formEl.key).untouched">At least {{formEl.minLength}} characters required
+      </clr-control-error>
+      <clr-control-error *clrIfError="'maxlength'" [hidden]="form.get(formEl.key).untouched">Maximum {{formEl.maxLength}} characters
+      </clr-control-error>
+    </clr-textarea-container>
+
+    <!-- SELECT/DROPDOWN -->
+    <div *ngSwitchCase="'dropdown'" [hidden]='!formEl.visible'>
+      <ng-template [ngIf]='formEl.options'>
+        <clr-select-container>
+
+          <label [attr.for]=" formEl.key" class="clr-control-label">{{formEl.label}}</label>
+          <select clrSelect [id]="formEl.key" [name]="formEl.key" [formControlName]="formEl.key">
+            <option *ngFor="let opt of formEl.options" [value]="opt.key">{{opt.value}}</option>
+          </select>
+          <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+        </clr-select-container>
+      </ng-template>
+      <ng-template [ngIf]='!formEl.options'>
+        <span class="spinner spinner-inline" *ngIf='!formEl.options'>
+          Loading...
+        </span>
+      </ng-template>
+    </div>
+
+
+    <!-- CHECKBOX -->
+    <clr-checkbox-container *ngSwitchCase="'checkbox'" [hidden]='!formEl.visible'>
+      <label [attr.for]="formEl.key" class="clr-control-label">{{formEl.label}}</label>
+      <clr-checkbox-wrapper>
+        <input type="checkbox" clrCheckbox [id]="formEl.key" [name]="formEl.key" [formControlName]='formEl.key' />
+        <!-- <label>{{formEl.key}}</label> -->
+      </clr-checkbox-wrapper>
+      <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+    </clr-checkbox-container>
+
+    <!-- RADIO -->
+    <div *ngSwitchCase="'radio'" [hidden]='!formEl.visible'>
+      <ng-template [ngIf]='formEl.options'>
+        <clr-radio-container>
+
+          <label [attr.for]="formEl.key" class="clr-control-label">{{formEl.label}}</label>
+          <clr-radio-wrapper *ngFor="let opt of formEl.options">
+            <input type="radio" clrRadio [value]='opt.key' [formControlName]='formEl.key' />
+            <label>{{opt.value}}</label>
+          </clr-radio-wrapper>
+          <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+
+
+        </clr-radio-container>
+      </ng-template>
+      <ng-template [ngIf]='!formEl.options'>
+        <span class="spinner spinner-inline">
+          Loading...
+        </span>
+      </ng-template>
+    </div>
+
+
+    <!-- DATEPICKER -->
+    <clr-date-container *ngSwitchCase="'date'" [hidden]='!formEl.visible'>
+      <label [attr.for]="formEl.key" class="clr-control-label">{{formEl.label}}</label>
+      <input type="date" clrDate [formControlName]='formEl.key' [id]="formEl.key" [name]="formEl.key" />
+      <clr-control-error *clrIfError="'required'">Required</clr-control-error>
+    </clr-date-container>
+
+  </div>
+</div>

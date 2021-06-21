@@ -1,0 +1,24 @@
+<div *ngIf='show'>
+  <div class="modal">
+    <div class="modal-dialog modal-sm" role="dialog" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-label="Close" class="close" type="button" (click)='show = false;'>
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+          </button>
+          <h3 class="modal-title">{{title}}</h3>
+        </div>
+        <div class="modal-body">
+          <p>
+
+            {{body}}</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" type="button" (click)='onNo()'>{{noBtnText}}</button>
+          <button class="btn btn-primary" type="button" (click)='onYes()'>{{yesBtnText}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" aria-hidden="true"></div>
+</div>

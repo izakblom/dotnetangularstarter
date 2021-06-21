@@ -1,0 +1,56 @@
+/*  clarity dependencies */
+@import "../node_modules/@clr/ui/src/utils/dependencies.clarity";
+
+/* TODO: Find a way to inject the scss override theme per tenant/deployment in angular.json.*/
+@import "./themes/default.scss";
+
+
+/*  clarity component dependencies */
+@import "../node_modules/@clr/ui/src/utils/components.clarity";
+
+
+.errorSnackbar {
+  background-color: #9e4130;
+}
+
+@import '~@angular/material/theming';
+
+// Include the common styles for Angular Material.
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$startersite-app-primary: mat-palette($mat-blue, 600);
+$startersite-app-primaryalt: mat-palette($mat-indigo);
+$startersite-app-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$startersite-app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$startersite-app-theme: mat-light-theme($startersite-app-primary, $startersite-app-accent, $startersite-app-warn);
+$startersite-app-themealt: mat-light-theme($startersite-app-primaryalt, $startersite-app-accent, $startersite-app-warn);
+
+.btn-card {
+  justify-content: center;
+  min-width: 200px;
+  display: flex !important;
+  cursor: pointer;
+  background-color: #0083c2 !important;
+  color: #fff !important;
+  max-width: 240px;
+  margin-bottom: 50px;
+}
+
+.page_heading {
+  margin: 0px;
+  border-bottom: 1px solid rgb(82, 77, 77);
+  width: 100%;
+  padding-bottom: 10px;
+  font-size: 14pt;
+}
+
+
+// @include mat-input-theme($startersite-app-themealt);
+@include angular-material-theme($startersite-app-theme);

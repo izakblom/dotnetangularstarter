@@ -1,0 +1,3 @@
+<div class="page_heading">Users</div>
+<app-data-table [apiDataRoute]="'api/admin/GetUsersByFilter'" [enableClickEvents]='userHasRequiredPermissions' (rowClick)='onRowClick($event)'>
+</app-data-table>

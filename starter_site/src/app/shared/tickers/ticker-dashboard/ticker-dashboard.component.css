@@ -1,0 +1,84 @@
+.grid-container {
+    margin: 10px;
+  }
+  
+  .dashboard-card {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+  }
+  
+  .drag-button {
+    float: right;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: none;
+  }
+
+  .dashboard-card-content {
+    text-align: left !important;
+    height: 80%;
+    /* -webkit-transform: translateY(65%);
+    transform: translateY(65%); */
+  }
+
+  .value-container {
+    height: 90%;
+    vertical-align: bottom;
+  }
+  
+  .dashboard-card:hover .delete-button {
+    display: block !important;
+  }
+
+  .dashboard-card:hover .drag-button {
+    display: block !important;
+  }
+
+  .dashboard-card:hover .card-title {
+    font-size: 0.9em !important;
+  }
+
+
+
+  .delete-button {
+    float: right;
+    font-size: 1em;
+    display: none;
+    margin-left: 3px;
+    cursor: pointer;
+  }
+
+.card-block {
+    border-bottom: none !important;
+    padding: 0px !important;
+}
+
+  .card-title {
+  
+  }
+
+  .card-value-content {
+    bottom: 10px !important;  
+  }
+  
+  .cdk-drop-list {
+    height: 100%;
+    width: 100%;
+  }
+  
+  
+  /* .cdk-drag-preview {
+    box-sizing: border-box;
+    opacity: 0.5;
+  } */
+  
+  .cdk-drag-animating {
+    transition: unset;
+  }
+  
+  /* .cdk-drag-placeholder {
+    display: none;
+  } */

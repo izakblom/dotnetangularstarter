@@ -1,0 +1,30 @@
+<div class="clr-row" style='width: 100% !important'>
+  <div class="clr-col"></div>
+
+  <div class="clr-col">
+    <div class="card">
+      <div class="card-header">
+        Verify Email
+      </div>
+      <div class="card-block">
+        <!-- <div class="card-title">
+                    Block
+                </div> -->
+        <div class="card-text">
+          <span *ngIf='!sendVerifyPending'>An email verification link has been sent to your account. Please verify your email to proceed.
+          </span>
+
+          <span class="spinner spinner-inline" *ngIf='sendVerifyPending'>
+            Loading...
+          </span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-sm btn-link" (click)='onContinue()'>Log In</button>
+        <button class="btn btn-sm btn-link" (click)='onResend()' [disabled]='verifySent || sendVerifyPending'>Resend Email</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="clr-col"></div>
+</div>

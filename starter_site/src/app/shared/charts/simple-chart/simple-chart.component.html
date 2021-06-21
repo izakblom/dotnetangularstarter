@@ -1,0 +1,32 @@
+<div class="card" style='margin-bottom: 25px'>
+  <div class="card-header">
+    {{title}}
+  </div>
+  <div class="card-block">
+    <div class="clr-row">
+
+      <ng-container
+        [ngTemplateOutlet]="type === 'LINE' ? lineChart : type === 'BARSTACKED' ? stackedBarChart : type === 'BARGROUPEDVERTICAL' ? groupedVertical : null">
+      </ng-container>
+      <ng-template #stackedBarChart>
+        <ngx-charts-bar-vertical-stacked [results]='data' [xAxis]='true' [yAxis]='true' [showXAxisLabel]='true' [showYAxisLabel]='true'
+          [xAxisLabel]='xAxisLabel' scheme='ocean' [yAxisLabel]='yAxisLabel' [view]='view' [legend]='true' [legendTitle]="''" [animations]='false'>
+
+        </ngx-charts-bar-vertical-stacked>
+      </ng-template>
+      <ng-template #groupedVertical>
+        <ngx-charts-bar-vertical-2d [results]='data' [xAxis]='true' [yAxis]='true' [showXAxisLabel]='true' [showYAxisLabel]='true'
+          [xAxisLabel]='xAxisLabel' scheme='ocean' [yAxisLabel]='yAxisLabel' [view]='view' [legend]='true' [legendTitle]="''" [animations]='false'>
+
+        </ngx-charts-bar-vertical-2d>
+      </ng-template>
+      <ng-template #lineChart>
+        <ngx-charts-line-chart [results]='data' [xAxis]='true' [yAxis]='true' [showXAxisLabel]='true' [showYAxisLabel]='true'
+          [xAxisLabel]='xAxisLabel' scheme='ocean' [yAxisLabel]='yAxisLabel' [view]='view' [animations]='false'>
+        </ngx-charts-line-chart>
+      </ng-template>
+
+    </div>
+
+  </div>
+</div>

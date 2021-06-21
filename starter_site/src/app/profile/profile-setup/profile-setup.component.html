@@ -1,0 +1,4 @@
+<div class='page_heading'>Profile</div>
+<app-dynamic-form *ngIf='profileDynamicForm' [formElements]='profileDynamicForm.elements' submitText='Update' (formSubmit)='onSubmit($event)'
+  title="Profile">
+</app-dynamic-form>

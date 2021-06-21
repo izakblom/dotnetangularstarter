@@ -1,0 +1,15 @@
+<form *ngIf='form' (ngSubmit)="onSubmit()" [formGroup]="form" clrForm>
+  <div class="card">
+    <div class="card-header">
+      {{title}}
+    </div>
+    <div class="card-block">
+      <div class='clr-row' *ngFor="let formElement of formElements">
+        <app-dynamic-form-element [formEl]='formElement' [form]='form'></app-dynamic-form-element>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="submit" class='btn btn-sm btn-link' [disabled]="form.invalid || form.pristine">{{submitText}}</button>
+    </div>
+  </div>
+</form>

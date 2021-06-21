@@ -1,0 +1,83 @@
+<clr-main-container>
+
+  <clr-header class="header">
+    <div class="branding">
+      <a class='logo-and-title'></a>
+      <span class="title" routerLink='/' style='cursor: pointer'>{{title}}</span>
+    </div>
+    <div class="header-actions">
+        <a id="addContractButton" [routerLink]="['/contracts/drafts/-1']" class="btn btn-info-outline" *ngIf="showAddContractButton && signedIn">Add Contract</a>
+      <clr-dropdown *ngIf='!signedIn'>
+        <a routerLink='signin' class="nav-link nav-text">
+          Login
+        </a>
+      </clr-dropdown>
+      <clr-dropdown *ngIf='signedIn'>
+        <!-- For desktop screens -->
+        <button class="nav-text" clrDropdownTrigger>
+          {{email}}
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <!-- For mobile screens -->
+        <!-- <button class="nav-icon" clrDropdownTrigger>
+          <clr-icon shape="cog"></clr-icon>
+          <clr-icon shape="caret down"></clr-icon>
+        </button> -->
+        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+          <a routerLink='profile' clrDropdownItem>Profile</a>
+          <a (click)='onLogout()' clrDropdownItem>Logout</a>
+        </clr-dropdown-menu>
+
+      </clr-dropdown>
+    </div>
+  </clr-header>
+  <nav class="subnav" [clr-nav-level]="1" *ngIf='topLevelNavItems && signedIn'>
+    <ul class="nav">
+      <li class="nav-item" *ngFor='let topNavItem of topLevelNavItems; let i = index'>
+        <a class="nav-link" [ngClass]="activeNavItem && activeNavItem.heading === topNavItem.heading ? 'active' : ''"
+          [routerLink]='topNavItem.routerLink' (click)='onTopNavClick(i)'>{{topNavItem.heading}}</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="alert alert-app-level " role="alert" style='max-height: 5px; margin-top: 2px;' [hidden]='!apiRequestPending && !routerRouting'>
+
+    <div class="progress loop"><progress></progress></div>
+
+  </div>
+  <div class="content-container">
+    <div class="content-area">
+
+
+      <div class='content-overlay' [hidden]='!apiRequestPending'></div>
+      <router-outlet></router-outlet>
+
+    </div>
+
+    <clr-vertical-nav *ngIf='signedIn && activeNavItem && activeNavItem.children.length > 0' [clrVerticalNavCollapsible]="true"
+      [(clrVerticalNavCollapsed)]="collapsed" style="width:250px">
+
+
+      <ng-container *ngFor="let childNav of activeNavItem.children">
+        <ng-container *ngIf="childNav.children.length > 0">
+          <clr-vertical-nav-group routerLinkActive="active">
+            <clr-icon [attr.shape]="childNav.icon" clrVerticalNavIcon></clr-icon>
+            {{childNav.heading}}
+            <clr-vertical-nav-group-children *ngFor='let child of childNav.children'>
+              <a clrVerticalNavLink [routerLink]="child.routerLink" routerLinkActive="active">
+                <clr-icon [attr.shape]="child.icon" clrVerticalNavIcon></clr-icon>
+                {{child.heading}}
+              </a>
+            </clr-vertical-nav-group-children>
+          </clr-vertical-nav-group>
+        </ng-container>
+        <ng-container *ngIf="childNav.children.length == 0">
+          <a clrVerticalNavLink [routerLink]="childNav.routerLink" routerLinkActive="active">
+            <clr-icon clrVerticalNavIcon [attr.shape]="childNav.icon"></clr-icon>
+            {{childNav.heading}}
+          </a>
+        </ng-container>
+      </ng-container>
+    </clr-vertical-nav>
+  </div>
+
+</clr-main-container>

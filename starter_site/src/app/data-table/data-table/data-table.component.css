@@ -1,0 +1,52 @@
+table {
+  width: 100%;
+}
+
+.mat-row.row-click {
+  cursor: pointer;
+}
+
+tr.mat-row.row-click:hover {
+  background-color: rgb(230, 233, 233);
+}
+
+.clr-input {
+  width: 80%;
+}
+
+.mat-expansion-panel-header {
+  max-height: 40px !important;
+}
+
+.mat-expansion-panel-content {
+  max-height: 40px !important;
+}
+
+clr-input-container.clr-form-control {
+  margin-top: 0px !important;
+  width: 100%;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+clr-select-container.clr-form-control {
+  margin-top: 0px !important;
+  width: 100%;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+
+.filter-container {
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 100% !important;
+}
+
+.full-width-form-field {
+  width: 100% !important;
+}

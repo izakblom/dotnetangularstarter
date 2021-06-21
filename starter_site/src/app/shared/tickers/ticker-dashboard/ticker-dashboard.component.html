@@ -1,0 +1,106 @@
+
+
+<ng-template [ngIf]="dashboard.activeTab() != null && !dashboard.activeTab().activeTicker">
+
+  <div class="clr-row clr-justify-content-end">
+      <button class="btn btn-sm" (click)='addTab()'>Add Tab</button>
+      <button class="btn btn-sm" (click)='saveDashboard()'>Save Dashboard</button>
+    </div>
+    <clr-tabs>
+      <clr-tab *ngFor="let tab of dashboard.tabs;let ti = index;">
+          <button clrTabLink (click)="activate(tab)">{{tab.title}}</button>
+          <ng-template [(clrIfActive)]="tab.active">
+              <clr-tab-content>
+                <div class="clr-row clr-justify-content-end">
+                  <button class="btn btn-sm" (click)='openRenameTab()'>Rename Tab</button>
+                  <button class="btn btn-sm btn-warning-outline" (click)='deleteTab(tab)'>Delete {{tab.title}}</button>
+                  <button class="btn btn-sm" (click)='addTicker(tab)'>Add Ticker</button>
+                </div>
+              </clr-tab-content>
+          </ng-template>
+      </clr-tab>
+    </clr-tabs>
+    <div class="grid-container" >
+      <mat-grid-list cols="12" [rowHeight]="layout.isLarge ? '1:1' : layout.isMedium ? '1:1' : '1:1'" gutterSize="5px">
+        <mat-grid-tile *ngFor="let t of dashboard.activeTab().tickers; let i = index;" 
+                        [colspan]="layout.isLarge ? t.lgCols : layout.isMedium ? t.mdCols : layout.isSmall ? t.smCols : 12" 
+                        [rowspan]="layout.isLarge ? t.lgRows : layout.isMedium ? t.mdRows : layout.isSmall ? t.smRows : 12">
+          <cdk-drop-list [cdkDropListConnectedTo]="drops" [cdkDropListData]="i" >
+            <mat-card cdkDrag (cdkDragEntered)="entered($event)" [cdkDragData]="i"
+                      class="dashboard-card"  [style.backgroundColor]="t.color" [style.color]="t.textColor">
+              
+              <div class="card-block">
+                <div *ngIf="t.loading" class="progress top loop"><progress></progress></div>
+
+                <mat-icon class="delete-button" [style.color]="t.textColor" (click)="deleteTicker(t)">clear</mat-icon>
+                <mat-icon class="delete-button" [style.color]="t.textColor" (click)="configureTicker(t)">edit</mat-icon>
+                <mat-icon class="delete-button" [style.color]="t.textColor" (click)="refreshTicker(t)">refresh</mat-icon>
+                <mat-icon cdkDragHandle class="drag-button" [style.color]="t.textColor">drag_handle</mat-icon>
+
+                <mat-card-title>
+                  <span class="card-title" [style.color]="t.textColor" [style.font-size]="t.titleSize">{{t.title}}</span>
+                </mat-card-title>
+
+              </div>
+              
+                
+
+              
+              <mat-card-content class="dashboard-card-content" *ngIf="!t.loading">
+                
+                <div *ngIf="t.template.type.name == 'Number Card'" class="clr-row clr-align-items-end value-container">
+                    <div class="clr-col">
+                      <span class="card-value" [style.color]="t.textColor" [style.font-size]="t.valueSize">{{t.displayValue}}</span>
+                    </div>
+                </div>
+                <div class="clr-row">
+                    <div class="clr-col-6">
+                      <span class="card-value" [style.color]="t.textColor" [style.font-size]="t.subtextSize">{{t.template.title}}</span>
+                    </div>
+                    <div class="clr-col-6" *ngIf="t.lastRefresh !== null" style="text-align: right">
+                      <span [style.color]="t.textColor" [style.font-size]="t.subtextSize">Today @ {{ t.lastRefresh | date :'HH:mm:ss' }}</span>
+                    </div>
+                </div>
+                  
+              </mat-card-content>
+            </mat-card>
+          </cdk-drop-list>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    
+    <!-- TAB EDITING MODAL--->
+    <clr-modal [(clrModalOpen)]="editingTabTitle">
+        <h3 class="modal-title">Rename </h3>
+        <div class="modal-body">
+            <input clrInput placeholder="Give this tab a name!" name="name" [(ngModel)]="editingTitle" />
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="cancelTabName()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="updateTabName()">Save</button>
+        </div>
+    </clr-modal>
+
+</ng-template>
+<ng-template [ngIf]="dashboard.activeTab() != null && dashboard.activeTab().activeTicker">
+  <app-ticker-configurator 
+    [templates]="availableTickers" 
+    [ticker]="dashboard.activeTab().activeTicker"
+    (cancel)="cancelTickerConfiguration()"
+    (save)="saveTickerConfiguration($event)"></app-ticker-configurator>
+</ng-template>
+
+
+<!---TICKER CONFIGURATION MODAL-->
+<!-- <clr-modal [(clrModalOpen)]="dashboard.activeTab().activeTicker" clrModalSize="lg">
+    <h3 class="modal-title">Configure Ticker</h3>
+    <div class="modal-body" *ngIf="dashboard.activeTab().activeTicker">
+
+        <input clrInput placeholder="Give this ticker a name!" name="name" [(ngModel)]="dashboard.activeTab().activeTicker.title" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelTickerConfiguration()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveTickerConfiguration()">Save</button>
+    </div>
+</clr-modal> -->
+

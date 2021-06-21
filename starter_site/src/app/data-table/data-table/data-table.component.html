@@ -1,0 +1,181 @@
+<!-- <mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Filters
+    </mat-panel-title>
+
+  </mat-expansion-panel-header>
+  <button class="btn btn-sm" (click)='clearFilter()'>Clear All</button>
+
+  <ng-container *ngFor='let col of columns'>
+    <mat-expansion-panel *ngIf='col.searchable'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{col.title}}
+        </mat-panel-title>
+
+      </mat-expansion-panel-header>
+      <clr-input-container style='width: 100% !important' *ngIf='!col.searchOptionsURL'>
+        <input class="clr-col-12" clrInput type="text" name="example" [(ngModel)]="filter[col.propertyName]" (input)='onFiltersChange($event)' />
+      </clr-input-container>
+      <clr-select-container *ngIf='col.searchOptionsURL && col.searchOptions' style='width: 100%'>
+        <select clrSelect name="options" [(ngModel)]="filter[col.propertyName]" (change)='onFiltersChange($event)'>
+          <option *ngFor='let option of col.searchOptions' [value]='option'>{{option}}</option>
+        </select>
+      </clr-select-container>
+
+    </mat-expansion-panel>
+  </ng-container>
+
+</mat-expansion-panel>
+<br> -->
+
+<div class="clr-row clr-align-items-start">
+  <div class="clr-col-lg-12 clr-col-md-12  clr-order-sm-1 clr-order ">
+    <div class="card">
+      <div class="card-header">
+
+        <div class="clr-row clr-justify-content-between clr-align-items-center">
+          <div class="clr-col">
+            {{title}}
+
+          </div>
+
+          <div class="clr-col" style="text-align: right">
+            <span *ngIf='filtersEnabled'>
+              <span class="label label-warning" style='margin-top: 6px;' *ngIf='!showFilters && filter && areFiltersActive()'>Filters active</span>
+              <button class="btn btn-sm" (click)='clearFilter()' *ngIf="filter && areFiltersActive()">Clear Filters</button>
+              <button class="btn  btn-sm" (click)='toggleFilters()'>{{showFilters ? 'Hide' : 'Show'}} Filters</button>
+            </span>
+
+            <button class="btn  btn-sm" (click)='onRefresh()' *ngIf='refreshEnabled'>Refresh
+              <clr-icon shape="refresh"></clr-icon>
+            </button>
+            <button class="btn btn-primary btn-sm" (click)='acceptSelection()' *ngIf='enableSelection'
+              [disabled]='!selection.hasValue()'>{{selectionActionTxt === '' ? 'Accept' : selectionActionTxt}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-block">
+        <div [ngClass]="showLoading ? '' : 'hidden'" style='max-height: 5px;' class="progress loop"><progress></progress></div>
+        <div>
+          <ng-container *ngIf="showFilters && filtersEnabled">
+            <div class="clr-row">
+
+              <ng-container *ngFor='let col of columns'>
+                <div *ngIf='col.searchable' class="filter-container">
+                  <mat-form-field *ngIf='!col.searchOptionsURL && !col.specialFilterControlType && !col.searchOptions' class="full-width-form-field">
+                    <mat-label>{{col.title}}</mat-label>
+                    <input matInput [attr.placeholder]="col.title" [(ngModel)]="filter[col.propertyName]" (input)='onFiltersChange($event)'>
+                  </mat-form-field>
+                  <mat-form-field *ngIf='col.searchOptions' class="full-width-form-field">
+                    <mat-label>{{col.title}}</mat-label>
+                    <mat-select [(ngModel)]="filter[col.propertyName]" (selectionChange)='onFiltersChange($event)' placeholder="Select">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor='let option of col.searchOptions' [value]='option'>{{option}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf='col.specialFilterControlType'>
+                    <mat-label>{{col.title}}</mat-label>
+                    <div>
+                      <input type="date" [(ngModel)]="filter[col.propertyName]" clrDate (clrDateChange)='onFiltersChange($event)'>
+                    </div>
+                  </div>
+                  <!-- <clr-input-container *ngIf='!col.searchOptionsURL'>
+                    <label>{{col.title}}</label>
+                    <input clrInput type="text" [(ngModel)]="filter[col.propertyName]" (input)='onFiltersChange($event)' style="min-width: 220px;" />
+                  </clr-input-container>
+                  <clr-select-container *ngIf='col.searchOptionsURL && col.searchOptions'>
+                    <label>{{col.title}}</label>
+                    <select clrSelect name="options" [(ngModel)]="filter[col.propertyName]" (change)='onFiltersChange($event)' style="min-width: 220px;">
+                      <option *ngFor='let option of col.searchOptions' [value]='option'>{{option}}</option>
+                    </select>
+                  </clr-select-container> -->
+                </div>
+              </ng-container>
+
+            </div>
+
+          </ng-container>
+          <table mat-table matSort [dataSource]="dataSource" matSortDisableClear>
+            <!-- <ng-template [ngIf]='enableSelection'> -->
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox color='primary' (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <mat-checkbox color='primary' (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null"
+                  [checked]="selection.isSelected(element)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+            <!-- </ng-template> -->
+            <ng-container [matColumnDef]="col.propertyName" *ngFor='let col of columns'>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]='!col.orderable'> {{col.title}} </th>
+              <td mat-cell *matCellDef="let element" [style.fontSize.px]="fontSizeInPx">
+                {{element[col.propertyName]}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnDefs"></tr>
+            <tr mat-row [ngClass]="enableClickEvents ? 'row-click' : ''" *matRowDef="let row; columns: columnDefs;" (click)='onRowClick(row)'></tr>
+
+            <ng-container [matColumnDef]="'custom' + i" *ngFor='let customAction of customActions; let i=index;'>
+              <th mat-header-cell *matHeaderCellDef>
+                {{customAction.actionHeading}}
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <button class="btn btn-primary btn-sm"
+                  (click)="handleCustomAction($event, customAction, element)">{{customAction.actionCaption}}</button>
+
+              </td>
+            </ng-container>
+          </table>
+          <mat-paginator [length]="totalCount" [pageSize]='10' [pageSizeOptions]="[1, 5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+        </div>
+
+
+      </div>
+      <!-- <div class="card-footer">
+
+      </div> -->
+    </div>
+
+  </div>
+  <!-- <div class="clr-col-lg-3 clr-col-md-4  clr-order-sm clr-order-1 ">
+    <div class="card">
+      <div class="card-header ">
+        <div class="clr-row clr-justify-content-between clr-align-items-center">
+          <div class="clr-col">
+            <span>
+              Filters
+            </span>
+          </div>
+          <div class="clr-col">
+            <span>
+              <button class="btn btn-sm" (click)='clearFilter()'>Clear All</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="card-block">
+        <ng-container *ngFor='let col of columns'>
+          <div *ngIf='col.searchable' class="clr-row">
+            <div class="clr-col-12">
+              <span>{{col.title}}</span>
+            </div>
+            <clr-input-container *ngIf='!col.searchOptionsURL' class="clr-col-12">
+              <input clrInput type="text" [(ngModel)]="filter[col.propertyName]" (input)='onFiltersChange($event)' style="min-width: 220px;" />
+            </clr-input-container>
+            <clr-select-container *ngIf='col.searchOptionsURL && col.searchOptions' class="clr-col-12">
+              <select clrSelect name="options" [(ngModel)]="filter[col.propertyName]" (change)='onFiltersChange($event)' style="min-width: 220px;">
+                <option *ngFor='let option of col.searchOptions' [value]='option'>{{option}}</option>
+              </select>
+            </clr-select-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div> -->
+</div>

@@ -1,0 +1,48 @@
+.content-overlay {
+  z-index: 1000;
+  background-color: rgb(0, 0, 0);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.15;
+
+  overflow: hidden;
+}
+
+.content-area {
+  position: relative;
+}
+
+
+
+@media screen and (min-width: 0px) and (max-width: 450px) {
+  .desktopNav {
+    display: none;
+  }
+
+  .mobileNav {
+    display: block;
+  }
+
+  /* show it on smaller screen */
+}
+
+@media screen and (min-width: 451px) and (max-width: 2000px) {
+  .desktopNav {
+    display: block;
+  }
+
+  .mobileNav {
+    display: none;
+  }
+
+  /* hide it on larger screens */
+}
+
+#addContractButton {
+  color: white;
+  border-color: white;
+  margin-top:10px;
+}

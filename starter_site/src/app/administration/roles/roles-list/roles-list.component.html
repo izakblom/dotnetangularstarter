@@ -1,0 +1,37 @@
+<div class="card">
+  <div class="card-header">
+    <div class="clr-row">
+      <div class="clr-col">
+        Roles with associated permissions
+      </div>
+      <div class="clr-col">
+        <button class="btn btn-sm btn-icon" style='float: right' (click)='onRoleConfigureClick(-1)'>
+          <clr-icon shape="add-text"></clr-icon>
+          Create a Role
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="card-block">
+    <clr-stack-view>
+
+      <clr-stack-block *ngFor='let role of roles; let i = index;' [clrSbExpanded]="true">
+        <clr-stack-label>{{role.name}}</clr-stack-label> <a role="tooltip" aria-haspopup="true" class="tooltip  tooltip-lg tooltip-right">
+          <clr-icon shape="info-circle" size="24"></clr-icon>
+          <span class="tooltip-content">{{role.description}}</span>
+        </a>
+        <clr-stack-content>
+          <button class="btn btn-sm btn-link" style='float: right' (click)='onRoleConfigureClick(i)'>Configure</button>
+        </clr-stack-content>
+        <clr-stack-block *ngFor='let permission of role.permissions; let pi = index' cdkDrag>
+          <clr-stack-label>{{permission.name}}</clr-stack-label>
+
+        </clr-stack-block>
+      </clr-stack-block>
+
+
+    </clr-stack-view>
+  </div>
+</div>

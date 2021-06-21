@@ -1,0 +1,8 @@
+:host {
+  height: 100%;
+  width: 100%;
+}
+
+input.clr-input {
+  min-width: 250px !important;
+}

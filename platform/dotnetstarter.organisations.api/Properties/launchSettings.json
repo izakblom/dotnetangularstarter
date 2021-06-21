@@ -1,0 +1,33 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:5001",
+      "sslPort": 0
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchUrl": "api/values",
+      "environmentVariables": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "example_credentials.json",
+        "TENANT": "DEFAULT",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PORT": "5001"
+      }
+    },
+    "dotnetstarter.organisations.api": {
+      "commandName": "Project",
+      "launchUrl": "api/values",
+      "environmentVariables": {
+        "TENANT": "DEFAULT",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PORT": "5001"
+      },
+      "applicationUrl": "http://localhost:5000"
+    }
+  }
+}

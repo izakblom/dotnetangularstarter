@@ -1,0 +1,55 @@
+<app-back-nav></app-back-nav>
+<button class="btn btn-danger-outline" style='float: right' *ngIf='roleId !== -1' (click)='onDeleteRole()'>Delete</button>
+<button class="btn btn-success-outline" style='float: right' (click)='onSaveRole()'
+  [disabled]="role.permissions.length === 0 || role.name === '' || role.description === ''">Save</button>
+
+<div class="card">
+  <div class="card-header">
+    Permissions
+    <a role="tooltip" aria-haspopup="true" class="tooltip  tooltip-lg tooltip-bottom-right" *ngIf='permissions.length > 0'>
+      <clr-icon shape="info-circle" size="24"></clr-icon>
+      <span class="tooltip-content">Click on permissions to add them to the role</span>
+    </a>
+    <span class="label" *ngIf='permissions.length === 0'>All allocated</span>
+  </div>
+  <div class="card-block">
+    <div class="clr-row">
+      <div class="clr-col-sm-3 clr-col-md-3 clr-col-lg-3 clr-col-xl-3 permbox" (click)='onPermissionClick(i)'
+        *ngFor='let perm of permissions; let i = index;'>
+        <clr-stack-label>{{perm.name}}</clr-stack-label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <mat-form-field style='width: 100%'>
+      <input matInput class='roleInput' placeholder="Role Name" [(ngModel)]="role.name">
+    </mat-form-field>
+    <mat-form-field style='width: 100%'>
+      <input matInput class='roleInput' placeholder="Role Description" [(ngModel)]="role.description">
+    </mat-form-field>
+  </div>
+  <div class="card-block">
+    <div class="clr-row rolePermHeading">
+      <clr-stack-label>Permissions</clr-stack-label>
+
+
+    </div>
+    <div class="clr-row" *ngFor='let permission of role.permissions; let pi = index'>
+      <div class="clr-col rolePerm">
+        <div class="clr-row">
+          <div class="clr-col">
+            <clr-stack-label>{{permission.name}}</clr-stack-label>
+          </div>
+          <div class="clr-col"><button type="button" class="btn btn-icon btn-sm btn-danger-outline" (click)='onRemovePermissionFromRole(pi)'>
+              <clr-icon shape="window-close"></clr-icon>
+            </button></div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>

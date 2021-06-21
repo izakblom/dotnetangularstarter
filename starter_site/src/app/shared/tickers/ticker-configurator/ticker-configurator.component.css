@@ -1,0 +1,12 @@
+
+.li-active {
+    color: red;
+}
+
+li:hover {
+  cursor: pointer;
+}
+
+li.staticLabel {
+  cursor: default;
+}

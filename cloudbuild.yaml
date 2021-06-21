@@ -1,0 +1,38 @@
+# This is a sample demonstrating how different cloudbuild configurations within a solution directory can be submitted
+# from one trigger
+# For this to work, the subdirectory cloudbuild.yaml files should not contain [dir] entries as the cloud build workspace(s) will
+# be relative to each nested directory.
+
+# CURRENTLY no trigger is set for this file!
+
+steps:
+
+# Build dotnet image
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--tag=gcr.io/$PROJECT_ID/dotnet'
+  - '.'
+
+# Build the examples projects
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    for d in examples/*/; do
+      config="${d}cloudbuild.yaml"
+      if [[ ! -f "${config}" ]]; then
+        continue
+      fi
+      echo "Building $d ... "
+      (
+        gcloud builds submit $d --config=${config}
+      ) &
+    done
+    wait
+
+timeout: "1600s"
+
+images:
+- 'gcr.io/$PROJECT_ID/dotnet'
